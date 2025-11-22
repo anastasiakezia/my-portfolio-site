@@ -1,14 +1,10 @@
-<h1 align="center">🌿✨ Anastasia Kezia — Personal Portfolio</h1>
+# 🌿✨ Anastasia Kezia — Personal Portfolio
 
-<p align="center">
-  A clean, modern, and responsive portfolio website built to showcase my work, experience, and journey as a Web Developer.
-</p>
+A clean, modern, and responsive portfolio website built to showcase my work, experience, and journey as a Web Developer.
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Status-Live-brightgreen?style=flat-square" />
-  <img src="https://img.shields.io/badge/Built%20With-HTML%20%7C%20CSS%20%7C%20JS-blue?style=flat-square" />
-  <img src="https://img.shields.io/badge/Design-Minimalist-9cf?style=flat-square" />
-</p>
+![Status](https://img.shields.io/badge/Status-Live-brightgreen?style=flat-square)
+![Stack](https://img.shields.io/badge/Built%20With-HTML%20%7C%20CSS%20%7C%20JS-blue?style=flat-square)
+![Design](https://img.shields.io/badge/Design-Minimalist-9cf?style=flat-square)
 
 ---
 
@@ -34,7 +30,6 @@ Featuring smooth animations, bilingual support, and dark/light mode — crafted 
 - 🌍 Multi-language (ID / EN)  
 - 🌙 Dark & Light themes  
 - 🧩 Dynamic project details  
-- 📱 Fully responsive on all screen sizes    
+- 📱 Fully responsive on all screen sizes  
 
 ---
-
