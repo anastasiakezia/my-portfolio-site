@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Anastasia Kezia - Web Developer</title>
+
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            fontFamily: {
+              heading: ["Outfit", "sans-serif"],
+              body: ["Plus Jakarta Sans", "sans-serif"],
+            },
+            colors: {
+              accent: "#D8448C", // Pink Custom
+              dark: {
+                bg: "#0B0F19",
+                card: "#111827",
+                section: "#161E32",
+                border: "#1F2937",
+              },
+              light: {
+                bg: "#F8FAFC",
+                card: "#FFFFFF",
+                section: "#F1F5F9",
+                border: "#E2E8F0",
+              },
+            },
+            animation: {
+              "fade-in-up": "fadeInUp 0.5s ease-out forwards",
+            },
+            keyframes: {
+              fadeInUp: {
+                "0%": { opacity: "0", transform: "translateY(20px)" },
+                "100%": { opacity: "1", transform: "translateY(0)" },
+              },
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: "Outfit", sans-serif;
+      }
+
+      /* Transisi halus */
+      body,
+      div,
+      section,
+      nav,
+      button,
+      input,
+      textarea,
+      span,
+      p,
+      a,
+      img {
+        transition-property: background-color, border-color, color, opacity,
+          transform, box-shadow, width;
+        transition-duration: 300ms;
+      }
+
+      /* Navbar Active State */
+      .nav-link.active {
+        color: #d8448c !important;
+        font-weight: 700;
+      }
+
+      /* Scrollbar Styling */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 10px;
+      }
+      .dark ::-webkit-scrollbar-thumb {
+        background: #334155;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #d8448c;
+      }
+
+      /* Hide Scrollbar Utility for Slider */
+      .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      /* Utilities */
+      .hidden-force {
+        display: none !important;
+      }
+
+      /* Mobile Menu Transform Class */
+      .translate-x-full {
+        transform: translateX(100%);
+      }
+      .translate-x-0 {
+        transform: translateX(0);
+      }
+
+      /* Input Autofill Style Fix */
+      input:-webkit-autofill,
+      input:-webkit-autofill:hover,
+      input:-webkit-autofill:focus,
+      textarea:-webkit-autofill,
+      textarea:-webkit-autofill:hover,
+      textarea:-webkit-autofill:focus {
+        -webkit-text-fill-color: inherit;
+        -webkit-box-shadow: 0 0 0px 1000px rgba(0, 0, 0, 0) inset;
+        transition: background-color 5000s ease-in-out 0s;
+      }
+
+      /* Skill Pill Style */
+      .skill-pill {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        background-color: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 9999px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: #475569;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        transition: all 0.2s;
+        cursor: default;
+      }
+      .skill-pill:hover {
+        transform: translateY(-2px);
+        border-color: #d8448c;
+      }
+      .dark .skill-pill {
+        background-color: #1e293b;
+        border-color: #334155;
+        color: #cbd5e1;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-light-bg text-slate-900 dark:bg-dark-bg dark:text-slate-100 transition-colors duration-300 selection:bg-accent selection:text-white overflow-x-hidden flex flex-col min-h-screen"
+  >
+    <nav
+      id="navbar"
+      class="fixed top-0 left-0 right-0 z-50 h-20 flex items-center transition-all duration-300 backdrop-blur-md bg-white/70 dark:bg-dark-bg/80 border-b border-transparent"
+    >
+      <div
+        class="max-w-7xl mx-auto px-8 md:px-12 w-full flex items-center justify-between"
+      >
+        <div
+          onclick="setView('home')"
+          class="cursor-pointer group relative z-50"
+        >
+          <span
+            class="text-xl font-bold tracking-tight font-heading group-hover:opacity-80"
+          >
+            AK<span class="text-accent">.</span>
+          </span>
+        </div>
+
+        <div class="flex items-center gap-8">
+          <div
+            id="nav-links"
+            class="hidden md:flex gap-8 font-medium text-sm tracking-wide text-slate-600 dark:text-slate-400"
+          >
+            <a
+              href="#home"
+              onclick="setView('home', 'home')"
+              class="nav-link hover:text-accent transition-colors cursor-pointer"
+              data-section="home"
+              data-i18n="nav.home"
+              >Beranda</a
+            >
+
+            <a
+              href="#about"
+              onclick="setView('home', 'about')"
+              class="nav-link hover:text-accent transition-colors cursor-pointer"
+              data-section="about"
+              data-i18n="nav.about"
+              >Tentang</a
+            >
+
+            <a
+              href="#services"
+              onclick="setView('home', 'services')"
+              class="nav-link hover:text-accent transition-colors cursor-pointer"
+              data-section="services"
+              data-i18n="nav.services"
+              >Layanan</a
+            >
+
+            <a
+              href="#projects"
+              onclick="setView('home', 'projects')"
+              class="nav-link hover:text-accent transition-colors cursor-pointer"
+              data-section="projects"
+              data-i18n="nav.projects"
+              >Proyek</a
+            >
+
+            <a
+              href="#contact"
+              onclick="setView('home', 'contact')"
+              class="nav-link hover:text-accent transition-colors cursor-pointer"
+              data-section="contact"
+              data-i18n="nav.contact"
+              >Kontak</a
+            >
+          </div>
+
+          <div
+            class="h-5 w-px bg-slate-300 dark:bg-slate-700 hidden md:block"
+          ></div>
+
+          <div class="hidden md:flex items-center gap-2">
+            <button
+              onclick="toggleLang()"
+              id="lang-btn-desktop"
+              class="text-xs font-bold px-3 py-1.5 rounded-md text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 transition-all"
+            >
+              ID
+            </button>
+            <button
+              onclick="toggleTheme()"
+              class="p-2 rounded-full text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
+            >
+              <i data-lucide="moon" class="w-4 h-4 hidden dark:block"></i>
+              <i data-lucide="sun" class="w-4 h-4 block dark:hidden"></i>
+            </button>
+          </div>
+
+          <button
+            onclick="toggleMobileMenu()"
+            class="md:hidden p-2 text-slate-600 dark:text-slate-300 focus:outline-none z-50"
+          >
+            <i data-lucide="menu" class="w-6 h-6"></i>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <div
+      id="mobile-menu"
+      class="fixed inset-0 z-[60] bg-white/95 dark:bg-dark-bg/95 backdrop-blur-xl transform translate-x-full transition-transform duration-300 flex flex-col items-center justify-center gap-8 md:hidden"
+    >
+      <button
+        onclick="toggleMobileMenu()"
+        class="absolute top-6 right-8 p-2 text-slate-600 dark:text-slate-300 hover:text-accent transition-colors"
+      >
+        <i data-lucide="x" class="w-8 h-8"></i>
+      </button>
+
+      <div
+        class="flex flex-col items-center gap-6 text-xl font-bold text-slate-800 dark:text-slate-200"
+      >
+        <a
+          href="#home"
+          onclick="handleMobileNav('home')"
+          data-i18n="nav.home"
+          class="hover:text-accent transition-colors"
+          >Beranda</a
+        >
+        <a
+          href="#about"
+          onclick="handleMobileNav('about')"
+          data-i18n="nav.about"
+          class="hover:text-accent transition-colors"
+          >Tentang</a
+        >
+        <a
+          href="#services"
+          onclick="handleMobileNav('services')"
+          data-i18n="nav.services"
+          class="hover:text-accent transition-colors"
+          >Layanan</a
+        >
+        <a
+          href="#projects"
+          onclick="handleMobileNav('projects')"
+          data-i18n="nav.projects"
+          class="hover:text-accent transition-colors"
+          >Proyek</a
+        >
+        <a
+          href="#contact"
+          onclick="handleMobileNav('contact')"
+          data-i18n="nav.contact"
+          class="hover:text-accent transition-colors"
+          >Kontak</a
+        >
+      </div>
+
+      <div class="w-12 h-px bg-slate-200 dark:bg-slate-700"></div>
+      <div class="flex items-center gap-6">
+        <button
+          onclick="toggleLang()"
+          id="lang-btn-mobile"
+          class="px-6 py-2 rounded-full border border-slate-200 dark:border-slate-700 font-bold text-sm hover:border-accent hover:text-accent transition-all"
+        >
+          ID
+        </button>
+        <button
+          onclick="toggleTheme()"
+          class="p-3 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-accent hover:text-white transition-colors"
+        >
+          <i data-lucide="moon" class="w-5 h-5 hidden dark:block"></i>
+          <i data-lucide="sun" class="w-5 h-5 block dark:hidden"></i>
+        </button>
+      </div>
+    </div>
+
+    <main class="flex-grow">
+      <div id="home-view" class="animate-fade-in-up">
+        <section
+          id="home"
+          class="min-h-screen flex items-center pt-32 pb-20 px-8 md:px-12 relative overflow-hidden section-spy"
+        >
+          <div
+            class="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full blur-[120px] opacity-10 bg-accent pointer-events-none"
+          ></div>
+          <div
+            class="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full blur-[100px] opacity-10 bg-purple-600 pointer-events-none"
+          ></div>
+
+          <div
+            class="max-w-6xl mx-auto w-full grid lg:grid-cols-2 gap-10 items-center"
+          >
+            <div class="order-2 lg:order-1">
+              <div class="inline-flex items-center gap-2 mb-6">
+                <div class="h-px w-8 bg-accent"></div>
+                <span
+                  class="text-sm font-bold uppercase tracking-widest text-accent"
+                  data-i18n="hero.role"
+                  >Web Developer</span
+                >
+              </div>
+
+              <h1
+                class="text-3xl md:text-4xl lg:text-5xl font-extrabold leading-[1.2] mb-6 tracking-tight text-slate-900 dark:text-white"
+              >
+                Hello, I'm <br />
+                <span class="text-accent">Anastasia Kezia</span>.
+              </h1>
+
+              <p
+                class="text-lg md:text-xl max-w-lg mb-10 leading-relaxed text-slate-500 dark:text-slate-400 font-light"
+                data-i18n="hero.desc"
+              >
+                Membangun pengalaman digital yang fungsional dan estetis.
+              </p>
+
+              <div class="flex flex-wrap gap-4">
+                <a
+                  href="#projects"
+                  class="px-8 py-4 rounded-full font-bold text-white bg-slate-900 dark:bg-white dark:text-slate-900 hover:bg-accent dark:hover:bg-accent dark:hover:text-white transition-all shadow-lg hover:shadow-accent/25 flex items-center gap-2"
+                >
+                  <span data-i18n="hero.btnProject">Lihat Karya</span>
+                  <i data-lucide="arrow-down" class="w-4 h-4"></i>
+                </a>
+                <a
+                  href="/path/to/cv.pdf"
+                  download
+                  class="group px-8 py-4 rounded-full font-bold border border-slate-200 dark:border-slate-800 hover:border-accent hover:text-accent transition-all flex items-center gap-2"
+                >
+                  <i
+                    data-lucide="download"
+                    class="w-4 h-4 group-hover:animate-bounce"
+                  ></i>
+                  <span data-i18n="hero.btnCV">Unduh CV</span>
+                </a>
+              </div>
+            </div>
+
+            <div
+              class="order-1 lg:order-2 relative flex justify-center lg:justify-end"
+            >
+              <div
+                class="relative w-full max-w-xs aspect-[3.5/4.5] rounded-[2rem] overflow-hidden shadow-2xl"
+              >
+                <div
+                  class="absolute inset-0 bg-gradient-to-b from-transparent to-black/60 z-10"
+                ></div>
+                <img
+                  src="image/foto_kezia.png"
+                  alt="Anastasia Kezia"
+                  class="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                />
+
+                <div
+                  class="absolute bottom-6 left-6 right-6 p-4 rounded-xl backdrop-blur-md bg-white/10 border border-white/20 z-20 flex items-center gap-4"
+                >
+                  <div
+                    class="w-3 h-3 rounded-full bg-green-500 animate-pulse shadow-[0_0_10px_#22c55e]"
+                  ></div>
+                  <div>
+                    <p
+                      class="text-sm text-white font-medium"
+                      data-i18n="hero.status"
+                    >
+                      Ready to Collaborate
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="about"
+          class="py-20 px-8 md:px-12 bg-white dark:bg-slate-900 border-y border-slate-100 dark:border-slate-800 section-spy"
+        >
+          <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-12">
+              <h2 class="text-3xl md:text-4xl font-bold mb-6">
+                <span data-i18n="about.title">Tentang Saya</span>
+              </h2>
+              <p
+                class="text-lg leading-relaxed text-slate-600 dark:text-slate-300 max-w-3xl mx-auto"
+                data-i18n="about.desc"
+              >
+                Profesional dengan pengalaman kuat dalam pengembangan web,
+                desain UI/UX, dan manajemen database. Berfokus pada pembuatan
+                produk yang cepat, scalable, dan berorientasi pada pengguna.
+                Berpengalaman mengelola proyek IT end-to-end, meningkatkan
+                performa produk melalui A/B testing, dan mengubah ide menjadi
+                solusi digital yang berdampak. Saya antusias berkembang di
+                lingkungan yang dinamis sebagai Web Developer yang senang
+                memecahkan masalah nyata melalui teknologi.
+              </p>
+
+              <div class="flex justify-center mt-8">
+                <div
+                  class="text-center px-8 py-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 inline-block"
+                >
+                  <span class="block text-4xl font-bold text-accent mb-1"
+                    >2+</span
+                  >
+                  <span
+                    class="text-xs text-slate-500 uppercase tracking-wider font-semibold"
+                    data-i18n="about.exp"
+                    >Tahun Pengalaman</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-16">
+              <h4
+                class="text-center text-sm font-bold uppercase tracking-widest text-slate-400 mb-8"
+                data-i18n="about.skills"
+              >
+                Tech Stack & Tools
+              </h4>
+
+              <div class="flex flex-wrap justify-center gap-4 md:gap-6">
+                <div class="skill-pill">
+                  <img
+                    src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg"
+                    class="w-5 h-5"
+                  />
+                  <span>HTML5</span>
+                </div>
+                <div class="skill-pill">
+                  <img
+                    src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg"
+                    class="w-5 h-5"
+                  />
+                  <span>CSS3</span>
+                </div>
+                <div class="skill-pill">
+                  <img
+                    src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg"
+                    class="w-5 h-5"
+                  />
+                  <span>Bootstrap</span>
+                </div>
+                <div class="skill-pill">
+                  <img
+                    src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg"
+                    class="w-5 h-5"
+                  />
+                  <span>Tailwind</span>
+                </div>
+                <div class="skill-pill">
+                  <img
+                    src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
+                    class="w-5 h-5"
+                  />
+                  <span>JavaScript</span>
+                </div>
+                <div class="skill-pill">
+                  <img
+                    src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg"
+                    class="w-5 h-5"
+                  />
+                  <span>PHP</span>
+                </div>
+                <div class="skill-pill">
+                  <img
+                    src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg"
+                    class="w-5 h-5"
+                  />
+                  <span>Laravel</span>
+                </div>
+                <div class="skill-pill">
+                  <img
+                    src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg"
+                    class="w-5 h-5"
+                  />
+                  <span>MySQL</span>
+                </div>
+                <div class="skill-pill">
+                  <img
+                    src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg"
+                    class="w-5 h-5"
+                  />
+                  <span>PostgreSQL</span>
+                </div>
+                <div class="skill-pill">
+                  <img
+                    src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg"
+                    class="w-5 h-5"
+                  />
+                  <span>Git</span>
+                </div>
+                <div class="skill-pill">
+                  <img
+                    src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/wordpress/wordpress-plain.svg"
+                    class="w-5 h-5 dark:invert"
+                  />
+                  <span>WordPress</span>
+                </div>
+                <div class="skill-pill">
+                  <img
+                    src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg"
+                    class="w-5 h-5"
+                  />
+                  <span>Docker</span>
+                </div>
+                <div class="skill-pill">
+                  <img
+                    src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg"
+                    class="w-5 h-5"
+                  />
+                  <span>Figma</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="services"
+          class="py-20 px-8 md:px-12 bg-light-section dark:bg-dark-section section-spy"
+        >
+          <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+              <h2
+                class="text-3xl md:text-4xl font-bold mb-4"
+                data-i18n="services.title"
+              >
+                Layanan Saya
+              </h2>
+              <p
+                class="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto"
+                data-i18n="services.desc"
+              >
+                Membantu mewujudkan ide digital Anda menjadi kenyataan dengan
+                kualitas terbaik.
+              </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+              <div
+                class="p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-accent hover:shadow-lg transition-all group flex items-start gap-5"
+              >
+                <div
+                  class="shrink-0 w-14 h-14 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center group-hover:bg-accent group-hover:text-white transition-colors text-accent"
+                >
+                  <i data-lucide="code" class="w-7 h-7"></i>
+                </div>
+                <div>
+                  <h3
+                    class="text-xl font-bold mb-2 text-slate-900 dark:text-white"
+                    data-i18n="services.web.title"
+                  >
+                    Web Development
+                  </h3>
+                  <p
+                    class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed"
+                    data-i18n="services.web.desc"
+                  >
+                    Membangun website yang responsif, cepat, dan SEO-friendly
+                    dari nol menggunakan teknologi modern.
+                  </p>
+                </div>
+              </div>
+
+              <div
+                class="p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-accent hover:shadow-lg transition-all group flex items-start gap-5"
+              >
+                <div
+                  class="shrink-0 w-14 h-14 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center group-hover:bg-accent group-hover:text-white transition-colors text-accent"
+                >
+                  <i data-lucide="layout" class="w-7 h-7"></i>
+                </div>
+                <div>
+                  <h3
+                    class="text-xl font-bold mb-2 text-slate-900 dark:text-white"
+                    data-i18n="services.ui.title"
+                  >
+                    UI/UX Design
+                  </h3>
+                  <p
+                    class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed"
+                    data-i18n="services.ui.desc"
+                  >
+                    Merancang antarmuka yang menarik dan pengalaman pengguna
+                    yang intuitif agar produk mudah digunakan.
+                  </p>
+                </div>
+              </div>
+
+              <div
+                class="p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-accent hover:shadow-lg transition-all group flex items-start gap-5"
+              >
+                <div
+                  class="shrink-0 w-14 h-14 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center group-hover:bg-accent group-hover:text-white transition-colors text-accent"
+                >
+                  <i data-lucide="database" class="w-7 h-7"></i>
+                </div>
+                <div>
+                  <h3
+                    class="text-xl font-bold mb-2 text-slate-900 dark:text-white"
+                    data-i18n="services.app.title"
+                  >
+                    Web Application
+                  </h3>
+                  <p
+                    class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed"
+                    data-i18n="services.app.desc"
+                  >
+                    Sistem informasi kompleks, dashboard, atau aplikasi berbasis
+                    web untuk mendukung operasional bisnis.
+                  </p>
+                </div>
+              </div>
+
+              <div
+                class="p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-accent hover:shadow-lg transition-all group flex items-start gap-5"
+              >
+                <div
+                  class="shrink-0 w-14 h-14 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center group-hover:bg-accent group-hover:text-white transition-colors text-accent"
+                >
+                  <i data-lucide="settings" class="w-7 h-7"></i>
+                </div>
+                <div>
+                  <h3
+                    class="text-xl font-bold mb-2 text-slate-900 dark:text-white"
+                    data-i18n="services.maint.title"
+                  >
+                    Maintenance
+                  </h3>
+                  <p
+                    class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed"
+                    data-i18n="services.maint.desc"
+                  >
+                    Layanan pemeliharaan rutin, optimasi kecepatan loading,
+                    keamanan, dan perbaikan bug website.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="projects" class="py-20 px-8 md:px-12 section-spy">
+          <div class="max-w-7xl mx-auto">
+            <div
+              class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6"
+            >
+              <div>
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">
+                  <span data-i18n="projects.title">Karya Pilihan</span>
+                </h2>
+                <p
+                  class="text-lg text-slate-500 dark:text-slate-400 max-w-lg"
+                  data-i18n="projects.desc"
+                >
+                  Eksplorasi teknologi dan desain dalam setiap baris kode.
+                </p>
+              </div>
+
+              <div class="flex flex-wrap gap-2">
+                <button
+                  onclick="filterProjects('all')"
+                  class="filter-btn active px-5 py-2 rounded-full text-sm font-bold border border-slate-200 dark:border-slate-700 transition-all hover:border-accent"
+                  data-filter="all"
+                >
+                  All
+                </button>
+                <button
+                  onclick="filterProjects('webapp')"
+                  class="filter-btn px-5 py-2 rounded-full text-sm font-bold border border-slate-200 dark:border-slate-700 transition-all hover:border-accent"
+                  data-filter="webapp"
+                >
+                  Web Apps
+                </button>
+                <button
+                  onclick="filterProjects('corporate')"
+                  class="filter-btn px-5 py-2 rounded-full text-sm font-bold border border-slate-200 dark:border-slate-700 transition-all hover:border-accent"
+                  data-filter="corporate"
+                >
+                  Corporate
+                </button>
+                <button
+                  onclick="filterProjects('creative')"
+                  class="filter-btn px-5 py-2 rounded-full text-sm font-bold border border-slate-200 dark:border-slate-700 transition-all hover:border-accent"
+                  data-filter="creative"
+                >
+                  Creative
+                </button>
+              </div>
+            </div>
+
+            <div
+              id="projects-grid"
+              class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
+            ></div>
+
+            <div class="mt-12 text-center">
+              <button
+                onclick="loadMoreProjects()"
+                id="load-more-btn"
+                class="group px-8 py-3 rounded-full font-bold text-sm border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-white/5 transition-all inline-flex items-center gap-2"
+              >
+                <span data-i18n="projects.loadMore">Muat Lebih Banyak</span>
+                <i
+                  data-lucide="plus"
+                  class="w-4 h-4 group-hover:rotate-90 transition-transform"
+                ></i>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="contact"
+          class="py-20 px-8 md:px-12 bg-light-section dark:bg-dark-section section-spy"
+        >
+          <div class="max-w-3xl mx-auto">
+            <div class="text-center mb-10">
+              <h2 class="text-4xl md:text-6xl font-bold mb-6 tracking-tight">
+                <span data-i18n="contact.title1">Mari</span>
+                <span class="text-accent" data-i18n="contact.title2"
+                  >Berkolaborasi.</span
+                >
+              </h2>
+              <p
+                class="text-xl text-slate-500 dark:text-slate-400"
+                data-i18n="contact.desc"
+              >
+                Ceritakan ide Anda, saya siap mewujudkannya.
+              </p>
+            </div>
+
+            <div
+              class="bg-white dark:bg-dark-card p-8 md:p-12 rounded-3xl border border-light-border dark:border-dark-border shadow-xl relative overflow-hidden"
+            >
+              <div
+                class="absolute top-0 right-0 w-40 h-40 bg-accent/5 rounded-full blur-3xl pointer-events-none"
+              ></div>
+              <div
+                class="absolute bottom-0 left-0 w-40 h-40 bg-blue-500/5 rounded-full blur-3xl pointer-events-none"
+              ></div>
+
+              <form
+                action="https://formspree.io/f/xleqaqqa"
+                method="POST"
+                class="grid gap-6 relative z-10"
+              >
+                <div class="grid md:grid-cols-2 gap-6">
+                  <div class="relative">
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      placeholder=" "
+                      required
+                      class="block px-5 py-4 w-full text-base text-slate-900 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 appearance-none dark:text-white focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent peer transition-all"
+                    />
+                    <label
+                      for="name"
+                      class="absolute text-sm text-slate-500 dark:text-slate-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-5 peer-focus:text-accent peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+                      data-i18n="contact.name"
+                    >
+                      Nama Lengkap
+                    </label>
+                  </div>
+                  <div class="relative">
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      placeholder=" "
+                      required
+                      class="block px-5 py-4 w-full text-base text-slate-900 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 appearance-none dark:text-white focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent peer transition-all"
+                    />
+                    <label
+                      for="email"
+                      class="absolute text-sm text-slate-500 dark:text-slate-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-5 peer-focus:text-accent peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+                      data-i18n="contact.email"
+                    >
+                      Email
+                    </label>
+                  </div>
+                </div>
+                <div class="relative">
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows="4"
+                    placeholder=" "
+                    required
+                    class="block px-5 py-4 w-full text-base text-slate-900 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 appearance-none dark:text-white focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent peer transition-all resize-none"
+                  ></textarea>
+                  <label
+                    for="message"
+                    class="absolute text-sm text-slate-500 dark:text-slate-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-5 peer-focus:text-accent peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+                    data-i18n="contact.msg"
+                  >
+                    Pesan / Detail Proyek
+                  </label>
+                </div>
+                <div class="pt-2">
+                  <button
+                    type="submit"
+                    class="w-full py-4 rounded-xl font-bold text-white text-lg bg-accent hover:bg-pink-600 transition-all shadow-lg shadow-accent/20 active:scale-95"
+                  >
+                    <span data-i18n="contact.send">Kirim Pesan</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div
+        id="detail-view"
+        class="hidden-force min-h-screen animate-fade-in-up bg-light-bg dark:bg-dark-bg px-8 md:px-12 pb-20 pt-28"
+      >
+        <div class="max-w-6xl mx-auto">
+          <div id="detail-content"></div>
+        </div>
+      </div>
+    </main>
+
+    <footer
+      class="relative bg-white dark:bg-dark-bg py-6 border-t border-slate-100 dark:border-slate-800"
+    >
+      <div
+        class="max-w-7xl mx-auto px-8 md:px-12 flex flex-col md:flex-row justify-between items-center gap-4"
+      >
+        <div class="text-center md:text-left">
+          <p class="text-xs text-slate-400">
+            &copy; 2025 Anastasia Kezia. Made with
+            <i
+              data-lucide="heart"
+              class="w-3 h-3 inline text-red-500 fill-red-500"
+            ></i>
+            in Magelang.
+          </p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <a
+            href="https://instagram.com/anastasiakezia"
+            target="_blank"
+            class="w-8 h-8 rounded-full border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-400 hover:border-accent hover:text-accent transition-all"
+          >
+            <i data-lucide="instagram" class="w-4 h-4"></i>
+          </a>
+          <a
+            href="https://linkedin.com/in/anastasiakezia"
+            target="_blank"
+            class="w-8 h-8 rounded-full border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-400 hover:border-accent hover:text-accent transition-all"
+          >
+            <i data-lucide="linkedin" class="w-4 h-4"></i>
+          </a>
+          <a
+            href="https://github.com/anastasiakezia"
+            target="_blank"
+            class="w-8 h-8 rounded-full border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-400 hover:border-accent hover:text-accent transition-all"
+          >
+            <i data-lucide="github" class="w-4 h-4"></i>
+          </a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
