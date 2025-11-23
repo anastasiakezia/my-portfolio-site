@@ -61,7 +61,8 @@ function openImageModal(index) {
 
   if (!project) return;
 
-  currentModalIndex = index;
+  // Gunakan index yang diberikan, atau fallback ke currentImageIndex slider
+  currentModalIndex = typeof index !== "undefined" ? index : currentImageIndex;
 
   if (modal && modalImg) {
     modalImg.src = project.images[currentModalIndex];
@@ -70,6 +71,7 @@ function openImageModal(index) {
 
     modal.classList.remove("hidden");
 
+    // Animasi fade in
     requestAnimationFrame(() => {
       modal.classList.remove("opacity-0");
       modalImg.classList.remove("scale-95");
@@ -114,7 +116,7 @@ function closeImageModal() {
   }
 }
 
-// --- FUNCTIONS LAINNYA ---
+// --- NAVIGASI ---
 
 function initScrollSpy() {
   const sections = document.querySelectorAll(".section-spy");
@@ -337,6 +339,7 @@ function setView(view, targetSection = null) {
   }
 }
 
+// --- SLIDER LOGIC ---
 function changeSlide(step) {
   const project = PROJECTS.find((p) => p.id === currentProjectId);
   if (!project) return;
@@ -355,8 +358,8 @@ function changeSlide(step) {
     img.src = project.images[currentImageIndex];
     if (blurImg) blurImg.src = project.images[currentImageIndex];
 
-    // REBIND ONCLICK (PENTING)
-    img.parentElement.onclick = function () {
+    // REBIND CLICK (Agar zoom selalu buka gambar yg aktif)
+    img.onclick = function () {
       openImageModal(currentImageIndex);
     };
 
@@ -388,10 +391,10 @@ function scrollRelated(direction) {
   else container.scrollBy({ left: -scrollAmount, behavior: "smooth" });
 }
 
-// --- OPEN DETAIL FUNCTION (REVISED LAYOUT) ---
+// --- DETAIL PAGE RENDER (FIXED SLIDER CLICK) ---
 function openDetail(id) {
   currentProjectId = id;
-  currentImageIndex = 0;
+  currentImageIndex = 0; // Reset
 
   const project = PROJECTS.find((p) => p.id === id);
   if (!project) return;
@@ -403,18 +406,18 @@ function openDetail(id) {
     ? `<a href="${project.link}" target="_blank" class="px-6 py-3 rounded-full font-bold text-white bg-accent hover:brightness-110 transition-all inline-flex items-center gap-2 text-sm">${t.visit} <i data-lucide="external-link" class="w-4 h-4"></i></a>`
     : `<div class="px-6 py-3 rounded-full font-bold bg-slate-100 dark:bg-slate-800 text-slate-500 text-sm inline-flex items-center gap-2 cursor-not-allowed">${t.private} <i data-lucide="lock" class="w-4 h-4"></i></div>`;
 
-  // REVISI: pointer-events-auto pada button, pointer-events-none pada container kontrol
+  // KONTROL SLIDER: pointer-events-none di container, pointer-events-auto di tombol
   const sliderControls =
     project.images.length > 1
-      ? `<div class="absolute inset-0 z-20 pointer-events-none flex items-center justify-between px-4">
-             <button onclick="changeSlide(-1); event.stopPropagation();" class="pointer-events-auto p-3 rounded-full bg-accent/80 text-white shadow-lg transition-all hover:bg-pink-600 flex items-center justify-center backdrop-blur-sm">
-                 <i data-lucide="chevron-left" class="w-6 h-6"></i>
+      ? `<div class="absolute inset-0 z-30 pointer-events-none flex items-center justify-between px-2 md:px-4">
+             <button onclick="changeSlide(-1); event.stopPropagation();" class="pointer-events-auto p-2 md:p-3 rounded-full bg-accent/80 text-white shadow-lg transition-all hover:bg-pink-600 flex items-center justify-center backdrop-blur-sm transform hover:scale-105">
+                 <i data-lucide="chevron-left" class="w-5 h-5 md:w-6 md:h-6"></i>
              </button>
-             <button onclick="changeSlide(1); event.stopPropagation();" class="pointer-events-auto p-3 rounded-full bg-accent/80 text-white shadow-lg transition-all hover:bg-pink-600 flex items-center justify-center backdrop-blur-sm">
-                 <i data-lucide="chevron-right" class="w-6 h-6"></i>
+             <button onclick="changeSlide(1); event.stopPropagation();" class="pointer-events-auto p-2 md:p-3 rounded-full bg-accent/80 text-white shadow-lg transition-all hover:bg-pink-600 flex items-center justify-center backdrop-blur-sm transform hover:scale-105">
+                 <i data-lucide="chevron-right" class="w-5 h-5 md:w-6 md:h-6"></i>
              </button>
          </div>
-         <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20 pointer-events-none">
+         <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-30 pointer-events-none">
             ${project.images
               .map(
                 (_, idx) =>
@@ -426,16 +429,14 @@ function openDetail(id) {
          </div>`
       : "";
 
-  // --- RELATED PROJECTS ---
+  // RELATED PROJECT
   const relatedProjects = PROJECTS.filter((p) => p.id !== id).slice(0, 5);
   let relatedHtml = "";
   relatedProjects.forEach((rel, idx) => {
     const relContent = rel.content[currentLang];
     const delay = idx * 100;
-    relatedHtml += `<div onclick="openDetail(${rel.id})" class="min-w-[90%] md:min-w-[calc(33.333%-16px)] snap-center cursor-pointer group bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden hover:border-accent transition-all shadow-sm hover:shadow-lg animate-fade-in-up" style="animation-delay: ${delay}ms"><div class="aspect-[4/3] bg-slate-100 dark:bg-slate-800 relative overflow-hidden"><img src="${rel.images[0]}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"><div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all"></div></div><div class="p-5"><div class="text-xs font-bold text-accent uppercase tracking-wider mb-1">${relContent.category}</div><h4 class="font-bold text-lg group-hover:text-accent transition-colors line-clamp-1">${relContent.title}</h4></div></div>`;
+    relatedHtml += `<div onclick="openDetail(${rel.id})" class="min-w-[85%] md:min-w-[calc(33.333%-16px)] snap-center cursor-pointer group bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden hover:border-accent transition-all shadow-sm hover:shadow-lg animate-fade-in-up" style="animation-delay: ${delay}ms"><div class="aspect-[4/3] bg-slate-100 dark:bg-slate-800 relative overflow-hidden"><img src="${rel.images[0]}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"><div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all"></div></div><div class="p-5"><div class="text-xs font-bold text-accent uppercase tracking-wider mb-1">${relContent.category}</div><h4 class="font-bold text-lg group-hover:text-accent transition-colors line-clamp-1">${relContent.title}</h4></div></div>`;
   });
-
-  const ctaHtml = `<div class="mt-20 p-10 rounded-[2.5rem] bg-accent text-white text-center relative overflow-hidden shadow-2xl"><div class="absolute top-0 left-0 w-full h-full bg-white/10 opacity-0 hover:opacity-100 transition-opacity pointer-events-none"></div><div class="absolute -top-24 -right-24 w-64 h-64 bg-white/20 rounded-full blur-3xl"></div><div class="absolute -bottom-24 -left-24 w-64 h-64 bg-purple-600/30 rounded-full blur-3xl"></div><div class="relative z-10 flex flex-col items-center gap-6"><div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm shadow-inner"><i data-lucide="rocket" class="w-8 h-8 text-white"></i></div><h3 class="text-3xl md:text-4xl font-bold font-heading">${ctaT.title}</h3><p class="text-white/90 max-w-xl mx-auto text-lg leading-relaxed">${ctaT.desc}</p><button onclick="setView('home', 'contact')" class="px-8 py-4 bg-white text-accent font-bold rounded-full shadow-lg hover:scale-105 hover:shadow-xl transition-all flex items-center gap-2 mt-2"><i data-lucide="mail" class="w-5 h-5"></i> ${ctaT.btn}</button></div></div>`;
 
   const html = `
       <div class="animate-fade-in-up">
@@ -461,14 +462,14 @@ function openDetail(id) {
     .join("")}</div></div>${linkHtml}</div>
           </div>
           
-          <div class="relative w-full aspect-[4/3] md:aspect-video overflow-hidden rounded-2xl group shadow-2xl mb-12 bg-slate-100 dark:bg-slate-900 select-none">
+          <div class="relative w-full aspect-video overflow-hidden rounded-2xl group shadow-2xl mb-12 bg-slate-100 dark:bg-slate-900 select-none">
               <div class="absolute inset-0 z-0">
                   <img id="bg-blur-img" src="${
                     project.images[0]
                   }" class="w-full h-full object-cover blur-2xl opacity-50 dark:opacity-30 scale-110 transition-all duration-500">
               </div>
 
-              <div class="absolute inset-0 z-10 flex items-center justify-center p-0 md:p-8 cursor-zoom-in transition-transform active:scale-[0.98]" onclick="openImageModal(currentImageIndex)">
+              <div class="absolute inset-0 z-10 flex items-center justify-center p-0 md:p-8 cursor-zoom-in" onclick="openImageModal(currentImageIndex)">
                     <img id="slider-img" src="${
                       project.images[0]
                     }" class="w-full h-full object-contain shadow-lg rounded-lg transition-opacity duration-300">
@@ -493,7 +494,14 @@ function openDetail(id) {
           <div class="border-t border-slate-200 dark:border-slate-800 pt-12 mt-12"><div class="flex items-center justify-between mb-8"><h3 class="text-2xl font-bold">${
             t.related
           }</h3><div class="flex gap-2"><button onclick="scrollRelated(-1)" class="p-2 rounded-full border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"><i data-lucide="chevron-left" class="w-5 h-5"></i></button><button onclick="scrollRelated(1)" class="p-2 rounded-full border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"><i data-lucide="chevron-right" class="w-5 h-5"></i></button></div></div><div class="relative -mx-4 px-4"><div id="related-slider" class="flex overflow-x-auto gap-6 pb-4 snap-x snap-mandatory hide-scrollbar scroll-smooth">${relatedHtml}</div></div></div>
-          ${ctaHtml}
+          
+          <div class="mt-20 p-10 rounded-[2.5rem] bg-accent text-white text-center relative overflow-hidden shadow-2xl"><div class="absolute top-0 left-0 w-full h-full bg-white/10 opacity-0 hover:opacity-100 transition-opacity pointer-events-none"></div><div class="absolute -top-24 -right-24 w-64 h-64 bg-white/20 rounded-full blur-3xl"></div><div class="absolute -bottom-24 -left-24 w-64 h-64 bg-purple-600/30 rounded-full blur-3xl"></div><div class="relative z-10 flex flex-col items-center gap-6"><div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm shadow-inner"><i data-lucide="rocket" class="w-8 h-8 text-white"></i></div><h3 class="text-3xl md:text-4xl font-bold font-heading">${
+            ctaT.title
+          }</h3><p class="text-white/90 max-w-xl mx-auto text-lg leading-relaxed">${
+    ctaT.desc
+  }</p><button onclick="setView('home', 'contact')" class="px-8 py-4 bg-white text-accent font-bold rounded-full shadow-lg hover:scale-105 hover:shadow-xl transition-all flex items-center gap-2 mt-2"><i data-lucide="mail" class="w-5 h-5"></i> ${
+    ctaT.btn
+  }</button></div></div>
       </div>`;
 
   document.getElementById("detail-content").innerHTML = html;
