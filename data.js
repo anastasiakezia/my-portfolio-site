@@ -546,9 +546,9 @@ const PROJECTS = [
         fullDesc:
           "Sistem web untuk mencatat barang masuk dan keluar di BPOM Ambon. Dibangun untuk meningkatkan akurasi data, mempercepat proses administrasi, serta menyediakan laporan real-time terkait pergerakan barang.",
         challenge:
-          "Mengelola data barang yang tinggi volumenya, memastikan akurasi pencatatan, serta menjaga keamanan data internal instansi pemerintah.",
+          "Proses pencatatan barang di BPOM Ambon sebelumnya masih dilakukan secara manual dan tersebar di beberapa berkas. Hal ini membuat data sulit dikonsolidasikan, rawan human error, lambat saat pencarian data, serta tidak ada rekaman pergerakan barang secara real-time. Selain itu, proses pelacakan tanggung jawab juga sulit karena tidak ada catatan aktivitas pengguna.",
         solution:
-          "Menerapkan CRUD berbasis Laravel, autentikasi aman, role management, validasi ketat pada input, serta dashboard laporan dengan filter dinamis. Sistem juga dilengkapi log aktivitas untuk audit dan pelacakan.",
+          "Membangun sistem web terpusat untuk mencatat barang masuk dan keluar secara digital. Sistem menyediakan input terstruktur untuk mengurangi human error, pencarian cepat, dan laporan real-time. Dilengkapi autentikasi aman, role management untuk membatasi akses, validasi ketat untuk menjaga kualitas data, serta log aktivitas agar setiap perubahan mudah ditelusuri.",
       },
       en: {
         title: "BPOM Ambon Goods In/Out Recording System",
@@ -558,15 +558,22 @@ const PROJECTS = [
         fullDesc:
           "A web-based system designed to record, track, and report the movement of goods at BPOM Ambon. Built to improve data accuracy, streamline administrative workflows, and provide real-time reporting.",
         challenge:
-          "Handling high-volume item data, maintaining precise records, and ensuring data security for a government environment.",
+          "Previously, the goods recording process at BPOM Ambon was handled manually using scattered documents, making data consolidation difficult and prone to human error. Searching for records was slow, real-time tracking was impossible, and user accountability was unclear due to the absence of activity logs.",
         solution:
-          "Implemented Laravel-based CRUD modules, secure authentication, role-based access control, strict input validation, and a reporting dashboard with dynamic filters. Activity logs were added for audit and tracking purposes.",
+          "Developed a centralized web system to digitize and streamline goods in/out recording. Structured inputs reduce human error, while fast search and real-time reporting improve operational efficiency. The system includes secure authentication, role-based access, strict data validation, and detailed activity logs to ensure accountability and traceability.",
       },
     },
     categoryGroup: "webapp",
     tools: ["Laravel", "PHP", "MySQL", "HTML", "CSS", "JavaScript"],
     type: "internal",
     link: null,
-    images: ["/api/placeholder/1200/800"],
+    images: [
+      "image/project/bpom-ambon/bpom_1.jpg",
+      "image/project/bpom-ambon/bpom_2.jpg",
+      "image/project/bpom-ambon/bpom_3.jpg",
+      "image/project/bpom-ambon/bpom_4.jpg",
+      "image/project/bpom-ambon/bpom_5.jpg",
+      "image/project/bpom-ambon/bpom_5.jpg",
+    ],
   },
 ];

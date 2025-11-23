@@ -172,6 +172,39 @@
         border-color: #334155;
         color: #cbd5e1;
       }
+
+      /* --- CLASS UNTUK SCROLL ANIMATION (PENTING) --- */
+      .reveal-up {
+        opacity: 0;
+        /* Jarak geser diperjauh jadi 50px biar kelihatan "naik" */
+        transform: translateY(50px);
+        /* Pakai cubic-bezier biar gerakannya 'set-set' (cepat di awal, ngerem di akhir) */
+        transition: all 0.8s cubic-bezier(0.17, 0.55, 0.55, 1);
+      }
+
+      .reveal-up.active {
+        opacity: 1;
+        transform: translateY(0); /* Kembali ke posisi asal */
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .reveal-up {
+          opacity: 1;
+          transform: none;
+          transition: none;
+        }
+      }
+
+      /* MODAL ZOOM IMAGE */
+      #image-modal {
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+      #image-modal.open {
+        opacity: 1;
+        pointer-events: auto;
+      }
     </style>
   </head>
   <body
@@ -185,7 +218,7 @@
         class="max-w-7xl mx-auto px-8 md:px-12 w-full flex items-center justify-between"
       >
         <div
-          onclick="setView('home')"
+          onclick="setView('home', 'home')"
           class="cursor-pointer group relative z-50"
         >
           <span
@@ -208,7 +241,6 @@
               data-i18n="nav.home"
               >Beranda</a
             >
-
             <a
               href="#about"
               onclick="setView('home', 'about')"
@@ -217,7 +249,6 @@
               data-i18n="nav.about"
               >Tentang</a
             >
-
             <a
               href="#services"
               onclick="setView('home', 'services')"
@@ -226,7 +257,6 @@
               data-i18n="nav.services"
               >Layanan</a
             >
-
             <a
               href="#projects"
               onclick="setView('home', 'projects')"
@@ -235,7 +265,6 @@
               data-i18n="nav.projects"
               >Proyek</a
             >
-
             <a
               href="#contact"
               onclick="setView('home', 'contact')"
@@ -329,6 +358,7 @@
       </div>
 
       <div class="w-12 h-px bg-slate-200 dark:bg-slate-700"></div>
+
       <div class="flex items-center gap-6">
         <button
           onclick="toggleLang()"
@@ -337,6 +367,7 @@
         >
           ID
         </button>
+
         <button
           onclick="toggleTheme()"
           class="p-3 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-accent hover:text-white transition-colors"
@@ -363,7 +394,7 @@
           <div
             class="max-w-6xl mx-auto w-full grid lg:grid-cols-2 gap-10 items-center"
           >
-            <div class="order-2 lg:order-1">
+            <div class="order-2 lg:order-1 reveal-up">
               <div class="inline-flex items-center gap-2 mb-6">
                 <div class="h-px w-8 bg-accent"></div>
                 <span
@@ -390,6 +421,7 @@
               <div class="flex flex-wrap gap-4">
                 <a
                   href="#projects"
+                  onclick="setView('home', 'projects')"
                   class="px-8 py-4 rounded-full font-bold text-white bg-slate-900 dark:bg-white dark:text-slate-900 hover:bg-accent dark:hover:bg-accent dark:hover:text-white transition-all shadow-lg hover:shadow-accent/25 flex items-center gap-2"
                 >
                   <span data-i18n="hero.btnProject">Lihat Karya</span>
@@ -410,7 +442,8 @@
             </div>
 
             <div
-              class="order-1 lg:order-2 relative flex justify-center lg:justify-end"
+              class="order-1 lg:order-2 relative flex justify-center lg:justify-end reveal-up"
+              style="transition-delay: 200ms"
             >
               <div
                 class="relative w-full max-w-xs aspect-[3.5/4.5] rounded-[2rem] overflow-hidden shadow-2xl"
@@ -449,7 +482,7 @@
           class="py-20 px-8 md:px-12 bg-white dark:bg-slate-900 border-y border-slate-100 dark:border-slate-800 section-spy"
         >
           <div class="max-w-5xl mx-auto">
-            <div class="text-center mb-12">
+            <div class="text-center mb-12 reveal-up">
               <h2 class="text-3xl md:text-4xl font-bold mb-6">
                 <span data-i18n="about.title">Tentang Saya</span>
               </h2>
@@ -483,7 +516,7 @@
               </div>
             </div>
 
-            <div class="mt-16">
+            <div class="mt-16 reveal-up" style="transition-delay: 150ms">
               <h4
                 class="text-center text-sm font-bold uppercase tracking-widest text-slate-400 mb-8"
                 data-i18n="about.skills"
@@ -593,7 +626,7 @@
           class="py-20 px-8 md:px-12 bg-light-section dark:bg-dark-section section-spy"
         >
           <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-16">
+            <div class="text-center mb-16 reveal-up">
               <h2
                 class="text-3xl md:text-4xl font-bold mb-4"
                 data-i18n="services.title"
@@ -611,7 +644,8 @@
 
             <div class="grid md:grid-cols-2 gap-6">
               <div
-                class="p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-accent hover:shadow-lg transition-all group flex items-start gap-5"
+                class="p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-accent hover:shadow-lg transition-all group flex items-start gap-5 reveal-up"
+                style="transition-delay: 100ms"
               >
                 <div
                   class="shrink-0 w-14 h-14 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center group-hover:bg-accent group-hover:text-white transition-colors text-accent"
@@ -636,7 +670,8 @@
               </div>
 
               <div
-                class="p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-accent hover:shadow-lg transition-all group flex items-start gap-5"
+                class="p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-accent hover:shadow-lg transition-all group flex items-start gap-5 reveal-up"
+                style="transition-delay: 200ms"
               >
                 <div
                   class="shrink-0 w-14 h-14 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center group-hover:bg-accent group-hover:text-white transition-colors text-accent"
@@ -661,7 +696,8 @@
               </div>
 
               <div
-                class="p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-accent hover:shadow-lg transition-all group flex items-start gap-5"
+                class="p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-accent hover:shadow-lg transition-all group flex items-start gap-5 reveal-up"
+                style="transition-delay: 300ms"
               >
                 <div
                   class="shrink-0 w-14 h-14 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center group-hover:bg-accent group-hover:text-white transition-colors text-accent"
@@ -686,7 +722,8 @@
               </div>
 
               <div
-                class="p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-accent hover:shadow-lg transition-all group flex items-start gap-5"
+                class="p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-accent hover:shadow-lg transition-all group flex items-start gap-5 reveal-up"
+                style="transition-delay: 400ms"
               >
                 <div
                   class="shrink-0 w-14 h-14 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center group-hover:bg-accent group-hover:text-white transition-colors text-accent"
@@ -716,7 +753,7 @@
         <section id="projects" class="py-20 px-8 md:px-12 section-spy">
           <div class="max-w-7xl mx-auto">
             <div
-              class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6"
+              class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6 reveal-up"
             >
               <div>
                 <h2 class="text-3xl md:text-4xl font-bold mb-4">
@@ -767,7 +804,7 @@
               class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
             ></div>
 
-            <div class="mt-12 text-center">
+            <div class="mt-12 text-center reveal-up">
               <button
                 onclick="loadMoreProjects()"
                 id="load-more-btn"
@@ -788,7 +825,7 @@
           class="py-20 px-8 md:px-12 bg-light-section dark:bg-dark-section section-spy"
         >
           <div class="max-w-3xl mx-auto">
-            <div class="text-center mb-10">
+            <div class="text-center mb-10 reveal-up">
               <h2 class="text-4xl md:text-6xl font-bold mb-6 tracking-tight">
                 <span data-i18n="contact.title1">Mari</span>
                 <span class="text-accent" data-i18n="contact.title2"
@@ -804,7 +841,8 @@
             </div>
 
             <div
-              class="bg-white dark:bg-dark-card p-8 md:p-12 rounded-3xl border border-light-border dark:border-dark-border shadow-xl relative overflow-hidden"
+              class="bg-white dark:bg-dark-card p-8 md:p-12 rounded-3xl border border-light-border dark:border-dark-border shadow-xl relative overflow-hidden reveal-up"
+              style="transition-delay: 200ms"
             >
               <div
                 class="absolute top-0 right-0 w-40 h-40 bg-accent/5 rounded-full blur-3xl pointer-events-none"
@@ -899,7 +937,7 @@
       class="relative bg-white dark:bg-dark-bg py-6 border-t border-slate-100 dark:border-slate-800"
     >
       <div
-        class="max-w-7xl mx-auto px-8 md:px-12 flex flex-col md:flex-row justify-between items-center gap-4"
+        class="max-w-7xl mx-auto px-8 md:px-12 flex flex-col md:flex-row justify-between items-center gap-4 reveal-up"
       >
         <div class="text-center md:text-left">
           <p class="text-xs text-slate-400">
@@ -937,6 +975,53 @@
         </div>
       </div>
     </footer>
+
+    <div
+      id="image-modal"
+      class="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300"
+      onclick="closeImageModal()"
+    >
+      <button
+        onclick="closeImageModal()"
+        class="absolute top-4 right-4 z-50 p-2 text-white/70 hover:text-white bg-black/50 rounded-full hover:bg-black/80 transition-all"
+      >
+        <i data-lucide="x" class="w-8 h-8"></i>
+      </button>
+
+      <button
+        onclick="changeModalSlide(-1); event.stopPropagation()"
+        class="absolute left-2 md:left-8 z-50 p-3 text-white/70 hover:text-white bg-black/50 rounded-full hover:bg-black/80 transition-all group"
+      >
+        <i
+          data-lucide="chevron-left"
+          class="w-8 h-8 group-hover:-translate-x-1 transition-transform"
+        ></i>
+      </button>
+
+      <img
+        id="modal-img"
+        src=""
+        alt="Zoomed Project"
+        class="max-w-full max-h-[85vh] object-contain rounded-md shadow-2xl transform scale-95 transition-transform duration-300"
+        onclick="event.stopPropagation()"
+      />
+
+      <button
+        onclick="changeModalSlide(1); event.stopPropagation()"
+        class="absolute right-2 md:right-8 z-50 p-3 text-white/70 hover:text-white bg-black/50 rounded-full hover:bg-black/80 transition-all group"
+      >
+        <i
+          data-lucide="chevron-right"
+          class="w-8 h-8 group-hover:translate-x-1 transition-transform"
+        ></i>
+      </button>
+
+      <div
+        class="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/60 text-sm font-medium px-4 py-1 bg-black/50 rounded-full"
+      >
+        <span id="modal-counter">1 / 1</span>
+      </div>
+    </div>
 
     <script src="data.js"></script>
     <script src="script.js"></script>
